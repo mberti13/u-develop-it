@@ -5,6 +5,7 @@ const mysql = require('mysql2');
 const express = require('express');
 const res = require('express/lib/response');
 const { param } = require('express/lib/request');
+const inputCheck = require('./utils/inputCheck');
 
 
 //sets the port designation for hosting on server
@@ -115,19 +116,29 @@ app.delete('/api/candidates/:id', (req, res) =>{
 
 
 //Create a candidate
-const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected)
-                VALUES (?,?,?,?)`;
+//body is req.body
+app.post('/api/candidates', ({ body }, res) => {
+    const errors = inputCheck(body, 'first_name', 'last_name', 'industry_connected');
+    if (errors) {
+      res.status(400).json({ error: errors });
+      return;
+    }
+    const sql = `INSERT INTO candidates (first_name, last_name, industry_connected)
+        VALUES (?,?,?)`;
+    const params = [body.first_name, body.last_name, body.industry_connected];
 
-const params = [1, 'Ronald', 'Firman', 1];
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.status(400).json({ error: err.message });
+            return;
+    }
+    res.json({
+        message: 'success',
+        data: body
+    });
+    });
+  });
 
-// db.query(sql,params, (err, result) =>{
-//     if(err){
-//         console.log(err)
-//     }
-
-//     console.log(result);
-
-// });
 
 
 //Default Response for any other request(Not Found)
