@@ -1,3 +1,11 @@
+-- Create Parties Table
+CREATE TABLE parties (
+  id INTEGER AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  description TEXT
+);
+
+
 -- Creates tables we have created in MySQL CLI
 CREATE TABLE candidates(
     id INTEGER AUTO_INCREMENT PRIMARY KEY,

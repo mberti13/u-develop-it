@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 //Express Middleware
-app.use(express.urlencoded({ extended:false }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 //Connects application to MySQL Database
@@ -45,12 +45,12 @@ const db = mysql.createConnection(
 //Runs SQL Query and executes callback with all resulting rows that match query
 //If there are no errors, err is null, THIS IS KEY!!!
 //GET all candidates
-app.get('/api/candidates', (req, res) =>{
+app.get('/api/candidates', (req, res) => {
     const sql = `SELECT * FROM candidates`;
 
 
-    db.query(sql, (err, rows) =>{
-        if(err){
+    db.query(sql, (err, rows) => {
+        if (err) {
             res.status(500).json({ error: err.message });
 
             return;
@@ -61,28 +61,29 @@ app.get('/api/candidates', (req, res) =>{
             message: 'success',
             data: rows
         });
-        
+
     });
-})
+});
+
 
 
 
 //GET a single candidate
-app.get('/api/candidates/:id', (req, res) =>{
+app.get('/api/candidates/:id', (req, res) => {
     const sql = `SELECT * FROM candidates WHERE id = ?`;
     const params = [req.params.id];
 
-    db.query(sql , params, (err, row) => {
-        if(err){
+    db.query(sql, params, (err, row) => {
+        if (err) {
             res.status(400).json({ error: err.message });
             return;
         }
-    
+
         res.json({
             message: 'success',
             data: row
         });
-    
+
     });
 
 });
@@ -90,21 +91,21 @@ app.get('/api/candidates/:id', (req, res) =>{
 
 
 //Delete a candidate
-app.delete('/api/candidates/:id', (req, res) =>{
+app.delete('/api/candidates/:id', (req, res) => {
     const sql = `DELETE FROM candidates WHERE id = ?`;
     //names id from results in array
     const params = [req.params.id];
 
-    db.query(sql, params, (err, result) =>{
-        if(err){
-            res.statusMessage(400).json({ error: res.message});
-        }else if
-        //if candidate doesn't exist
-        (!result.affectedRows){
+    db.query(sql, params, (err, result) => {
+        if (err) {
+            res.statusMessage(400).json({ error: res.message });
+        } else if
+            //if candidate doesn't exist
+            (!result.affectedRows) {
             res.json({
                 message: 'Candidate not found!'
             });
-        }else{
+        } else {
             res.json({
                 message: 'Successfully deleted!',
                 changes: result.affectedRows,
@@ -120,8 +121,8 @@ app.delete('/api/candidates/:id', (req, res) =>{
 app.post('/api/candidates', ({ body }, res) => {
     const errors = inputCheck(body, 'first_name', 'last_name', 'industry_connected');
     if (errors) {
-      res.status(400).json({ error: errors });
-      return;
+        res.status(400).json({ error: errors });
+        return;
     }
     const sql = `INSERT INTO candidates (first_name, last_name, industry_connected)
         VALUES (?,?,?)`;
@@ -131,23 +132,23 @@ app.post('/api/candidates', ({ body }, res) => {
         if (err) {
             res.status(400).json({ error: err.message });
             return;
-    }
-    res.json({
-        message: 'success',
-        data: body
+        }
+        res.json({
+            message: 'success',
+            data: body
+        });
     });
-    });
-  });
+});
 
 
 
 //Default Response for any other request(Not Found)
 //CATCHALL ROUTE
-app.use((req,res) =>{
+app.use((req, res) => {
     res.status(404).end()
 });
 
 //Function to start server on port 3001
-app.listen(PORT, () =>{
+app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
