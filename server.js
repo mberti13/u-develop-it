@@ -73,7 +73,7 @@ app.get('/api/candidates', (req, res) => {
 
 
 
-
+// * GET Candidates by ID
 //GET a single candidate
 app.get('/api/candidates/:id', (req, res) => {
     const sql = `SELECT candidates.*, parties.name 
@@ -100,7 +100,7 @@ app.get('/api/candidates/:id', (req, res) => {
 });
 
 
-
+// * DELETE Candidates by ID
 //Delete a candidate
 app.delete('/api/candidates/:id', (req, res) => {
     const sql = `DELETE FROM candidates WHERE id = ?`;
@@ -126,7 +126,7 @@ app.delete('/api/candidates/:id', (req, res) => {
     });
 });
 
-
+// * CREATE/POST Candidates by ID
 //Create a candidate
 //body is req.body
 app.post('/api/candidates', ({ body }, res) => {
@@ -151,6 +151,7 @@ app.post('/api/candidates', ({ body }, res) => {
     });
 });
 
+// * UPDATE/PUT Candidates by ID
 //Update candidates party
 app.put('/api/candidates/:id', (req, res) =>{
 
@@ -185,6 +186,7 @@ app.put('/api/candidates/:id', (req, res) =>{
 
 // * PARTIES REQUESTS * //
 //Request to receive info about all parties
+// * GET *ALL* parties
 app.get('/api/parties', (req, res) =>{
     const sql = `SELECT * FROM parties`;
 
@@ -200,6 +202,7 @@ app.get('/api/parties', (req, res) =>{
     });
 });
 
+// * GET parties by ID
 //request to receive data about 1 party by ID
 app.get('/api/parties/:id', (req, res) =>{
     const sql = `SELECT * FROM parties WHERE id = ?`;
@@ -218,6 +221,7 @@ app.get('/api/parties/:id', (req, res) =>{
     });
 });
 
+// * DELETE parties by ID
 //Request to delete parties by ID
 app.delete('/api/parties/:id', (req, res) =>{
     const sql = `DELETE FROM parties WHERE id = ?`;
@@ -244,10 +248,12 @@ app.delete('/api/parties/:id', (req, res) =>{
 
 //Default Response for any other request(Not Found)
 //CATCHALL ROUTE
+// * Initializes the server on EXPRESS.js
 app.use((req, res) => {
     res.status(404).end()
 });
 
+// * STARTS the server at PORT or 3001
 //Function to start server on port 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
