@@ -6,7 +6,7 @@ const inputCheck = require('../../utils/inputCheck');
 
 
 
-// * GET all candidates * //
+// GET all candidates
 router.get('/candidates', (req, res) => {
     const sql = `SELECT candidates.*, parties.name 
                     AS party_name 
@@ -34,7 +34,7 @@ router.get('/candidates', (req, res) => {
 
 
 
-// * GET Candidates by ID
+//  GET Candidates by ID
 //GET a single candidate
 router.get('/candidates/:id', (req, res) => {
     const sql = `SELECT candidates.*, parties.name 
@@ -61,7 +61,7 @@ router.get('/candidates/:id', (req, res) => {
 });
 
 
-// * DELETE Candidates by ID
+//  DELETE Candidates by ID
 //Delete a candidate
 router.delete('/candidates/:id', (req, res) => {
     const sql = `DELETE FROM candidates WHERE id = ?`;
@@ -87,7 +87,7 @@ router.delete('/candidates/:id', (req, res) => {
     });
 });
 
-// * CREATE/POST Candidates by ID
+//  CREATE/POST Candidates by ID
 //Create a candidate
 //body is req.body
 router.post('/candidates', ({ body }, res) => {
@@ -112,7 +112,7 @@ router.post('/candidates', ({ body }, res) => {
     });
 });
 
-// * UPDATE/PUT Candidates by ID
+// UPDATE/PUT Candidates by ID
 //Update candidates party
 router.put('/candidates/:id', (req, res) =>{
 

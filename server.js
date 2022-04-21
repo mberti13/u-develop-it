@@ -29,9 +29,9 @@ app.use('/api', apiRoutes);
 // ! Queries were moved to their respective modules
 //Default Response for any other request(Not Found)
 //CATCHALL ROUTE
-// * Initializes the server on EXPRESS.js
+// * Checks for error when starting server
 app.use((req, res) => {
-    res.status(404).end()
+    res.status(404).end();
 });
 
 // * STARTS the server at PORT or 3001
